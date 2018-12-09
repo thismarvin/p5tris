@@ -1,7 +1,12 @@
 class Tetromino {
     constructor() {
+        this.x = 0;
+        this.y = 0;
         this.pieces = [[[]]];
-        this.type = 0;
+        this.type = 1 + floor(Math.random() * 7);
+        this.rotationIndex = 0;
+
+        this.setup();
     }
 
     setup() {
@@ -205,7 +210,78 @@ class Tetromino {
         }
     }
 
+    left() {
+        let leftMost = 3;
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (this.pieces[this.rotationIndex][y][x] != 0) {
+                    leftMost = x < leftMost ? x : leftMost;
+                }
+            }
+        }
+        return this.x + leftMost;
+    }
+
+    right() {
+        let rightMost = 0;
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (this.pieces[this.rotationIndex][y][x] != 0) {
+                    rightMost = x > rightMost ? x : rightMost;
+                }
+            }
+        }
+        return this.x + rightMost;
+    }
+
+    bottom() {
+        let lowest = 0;
+        for (let x = 0; x < 4; x++) {
+            for (let y = 0; y < 4; y++) {
+                if (this.pieces[this.rotationIndex][y][x] != 0) {
+                    lowest = y > lowest ? y : lowest;
+                }
+            }
+        }
+        return this.y + lowest;
+    }
+
+    fall() {
+        // Checks for collision at the bottom of the board.
+        if (this.bottom() + 1 < boardHeight) {
+            this.y += 1;
+        }
+    }
+
+    move(dir) {
+        console.log(this.left());
+        switch (dir) {
+            case -1:
+                if (this.left() - 1 >= 0) {
+                    this.x += -1;
+                }
+                break;
+            case 1:
+                if (this.right() + 1 < boardWidth) {
+                    this.x += 1;
+                }
+                break;
+        }
+    }
+
+    rotate(dir) {
+        switch (dir) {
+            case -1:
+                this.rotationIndex = this.rotationIndex + dir < 0 ? 3 : this.rotationIndex + dir;
+                break;
+            case 1:
+                this.rotationIndex = this.rotationIndex + dir > 3 ? 0 : this.rotationIndex + dir;
+                break;
+        }
+    }
+
     update() {
+        this.fall();
         this.show();
     }
 
@@ -235,5 +311,12 @@ class Tetromino {
                 break;
         }
 
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (this.pieces[this.rotationIndex][y][x] != 0) {
+                    rect(padding + this.x * size + x * size, padding + this.y * size + y * size, size - 2, size - 2);
+                }
+            }
+        }
     }
 }
