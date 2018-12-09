@@ -1,15 +1,19 @@
 
 let size;
+let padding;
 let boardWidth;
 let boardHeight;
 let board;
 
+let tetromino;
+
 function setup() {
     size = 25;
+    padding = floor(size / 5);
     boardWidth = 10;
     boardHeight = 20;
     board = [];
-    createCanvas(boardWidth * size, boardHeight * size);
+    createCanvas(boardWidth * size + padding * 2 - 2, boardHeight * size + padding * 2 - 2);
 
     // Creates grid of integers according to the board's dimensions.
     for (let y = 0; y < boardHeight; y++) {
@@ -20,8 +24,13 @@ function setup() {
         board.push(row);
     }
 
-    // Debugging
-    board[boardHeight - 1][boardWidth - 1] = 1;
+    this.tetromino = new Tetromino();
+
+    frameRate(1);
+}
+
+function update(){
+    this.tetromino.update();
 }
 
 function draw() {
@@ -32,13 +41,15 @@ function draw() {
     fill(0);
     rect(0, 0, width - 1, height - 1);
 
+    update();
+
     // Draws Board.
     noStroke();
     fill(255);
     for (let y = 0; y < boardHeight; y++) {
         for (let x = 0; x < boardWidth; x++) {
             if (board[y][x] === 1) {
-                rect(x * size + 1, y * size, size - 5, size - 4);
+                rect(padding + x * size, padding + y * size, size - 2, size - 2);
             }
         }
     }
