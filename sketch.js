@@ -26,7 +26,30 @@ function setup() {
 
     this.tetromino = new Tetromino();
 
-    frameRate(1);
+    frameRate(5);
+}
+
+function keyPressed() {
+    if (keyCode === LEFT_ARROW || keyCode === 65) {
+        this.tetromino.move(-1);
+    }
+    if (keyCode === RIGHT_ARROW || keyCode === 68) {
+        this.tetromino.move(1);
+    }
+
+    if (keyCode === DOWN_ARROW || keyCode === 83) {
+       
+    }
+
+    // Space
+    if (keyCode === 32) {
+        this.tetromino.rotate(1);
+    }
+
+    // R
+    if (keyCode === 82) {
+        this.tetromino = new Tetromino();
+    }
 }
 
 function update(){
