@@ -1,4 +1,5 @@
 
+let debug;
 let size;
 let padding;
 let boardWidth;
@@ -8,6 +9,7 @@ let board;
 let tetromino;
 
 function setup() {
+    debug = false;
     size = 25;
     padding = floor(size / 5);
     boardWidth = 10;
@@ -29,6 +31,18 @@ function setup() {
     frameRate(5);
 }
 
+function debugBoard() {
+    let temp = "";
+    for (let y = 0; y < boardHeight; y++) {
+        temp = "";
+        for (let x = 0; x < boardWidth; x++) {
+            temp += board[y][x] + " ";
+        }
+        console.log(temp);
+    }
+    console.log("___________________");
+}
+
 function keyPressed() {
     if (keyCode === LEFT_ARROW || keyCode === 65) {
         this.tetromino.move(-1);
@@ -38,7 +52,7 @@ function keyPressed() {
     }
 
     if (keyCode === DOWN_ARROW || keyCode === 83) {
-       
+
     }
 
     // Space
@@ -52,7 +66,21 @@ function keyPressed() {
     }
 }
 
-function update(){
+function addTetrominoToBoard() {
+    for (let y = 0; y < 4; y++) {
+        for (let x = 0; x < 4; x++) {
+            if (this.tetromino.pieces[this.tetromino.rotationIndex][y][x] != 0) {
+                board[this.tetromino.y + y][this.tetromino.x + x] = this.tetromino.type;
+            }
+        }
+    }
+    this.tetromino.reset();
+    if (debug) {
+        debugBoard();
+    }
+}
+
+function update() {
     this.tetromino.update();
 }
 
@@ -71,9 +99,33 @@ function draw() {
     fill(255);
     for (let y = 0; y < boardHeight; y++) {
         for (let x = 0; x < boardWidth; x++) {
-            if (board[y][x] === 1) {
-                rect(padding + x * size, padding + y * size, size - 2, size - 2);
+            if (board[y][x] === 0) {
+                continue;
             }
+            switch (board[y][x]) {
+                case 1:
+                    fill(41, 173, 255);
+                    break;
+                case 2:
+                    fill(16, 78, 159);
+                    break;
+                case 3:
+                    fill(255, 163, 0);
+                    break;
+                case 4:
+                    fill(255, 255, 39);
+                    break;
+                case 5:
+                    fill(0, 231, 86);
+                    break;
+                case 6:
+                    fill(131, 118, 156);
+                    break;
+                case 7:
+                    fill(255, 119, 168);
+                    break;
+            }
+            rect(padding + x * size, padding + y * size, size - 2, size - 2);
         }
     }
 }
