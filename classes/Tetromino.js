@@ -1,12 +1,11 @@
 class Tetromino {
     constructor() {
         this.x = 0;
-        this.y = 0;
-        this.pieces = [[[]]];
-        this.type = 1 + floor(Math.random() * 7);
+        this.y = 0;        
+        this.type = 0;
         this.rotationIndex = 0;
-
-        this.setup();
+        this.falling = true;   
+        this.reset();
     }
 
     setup() {
@@ -210,6 +209,16 @@ class Tetromino {
         }
     }
 
+    reset(){
+        this.x = 0;
+        this.y = 0;
+        this.type = 1 + floor(Math.random() * 7);
+        this.rotationIndex = 0;
+        this.falling = true;     
+        this.pieces = [[[]]];
+        this.setup();  
+    }
+
     left() {
         let leftMost = 3;
         for (let y = 0; y < 4; y++) {
@@ -247,14 +256,24 @@ class Tetromino {
     }
 
     fall() {
+        if (!this.falling){
+            return;
+        }
         // Checks for collision at the bottom of the board.
         if (this.bottom() + 1 < boardHeight) {
             this.y += 1;
         }
+        else{
+            this.falling = false;
+            addTetrominoToBoard();
+        }
     }
 
     move(dir) {
-        console.log(this.left());
+        if (!this.falling){
+            return;
+        }
+
         switch (dir) {
             case -1:
                 if (this.left() - 1 >= 0) {
