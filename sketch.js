@@ -5,8 +5,8 @@ let padding;
 let boardWidth;
 let boardHeight;
 let board;
-
 let tetromino;
+let gameOver;
 
 function setup() {
     debug = false;
@@ -15,8 +15,14 @@ function setup() {
     boardWidth = 10;
     boardHeight = 20;
     board = [];
+    gameOver = false;
     createCanvas(boardWidth * size + padding * 2 - 2, boardHeight * size + padding * 2 - 2);
+    reset();
+    frameRate(5);
+}
 
+function reset() {
+    board = [];
     // Creates grid of integers according to the board's dimensions.
     for (let y = 0; y < boardHeight; y++) {
         let row = [];
@@ -27,8 +33,6 @@ function setup() {
     }
 
     this.tetromino = new Tetromino();
-
-    frameRate(5);
 }
 
 function debugBoard() {
@@ -52,7 +56,10 @@ function keyPressed() {
     }
 
     if (keyCode === DOWN_ARROW || keyCode === 83) {
-
+        frameRate(20);
+    }
+    else {
+        frameRate(5);
     }
 
     // Space
@@ -62,7 +69,13 @@ function keyPressed() {
 
     // R
     if (keyCode === 82) {
-        this.tetromino = new Tetromino();
+        reset();
+    }
+}
+
+function keyReleased() {
+    if (keyCode === DOWN_ARROW || keyCode === 83) {
+        frameRate(5);
     }
 }
 
@@ -89,13 +102,22 @@ function checkLines() {
 }
 
 function addTetrominoToBoard() {
+    if (gameOver) {
+        return;
+    }
+
     for (let y = 0; y < 4; y++) {
         for (let x = 0; x < 4; x++) {
+            if (this.tetromino.y < 0) {
+                gameOver = true;
+                return;
+            }
             if (this.tetromino.pieces[this.tetromino.rotationIndex][y][x] != 0) {
                 board[this.tetromino.y + y][this.tetromino.x + x] = this.tetromino.type;
             }
         }
     }
+
     checkLines();
     this.tetromino.reset();
     if (debug) {
@@ -116,8 +138,6 @@ function draw() {
     stroke(255);
     noFill();
     rect(0, 0, width - 1, height - 1);
-
-    
 
     // Draws Board.
     noStroke();
