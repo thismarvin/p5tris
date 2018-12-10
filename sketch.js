@@ -66,6 +66,28 @@ function keyPressed() {
     }
 }
 
+function moveBoardDown(row) {
+    for (let y = row; y > 0; y--) {
+        for (let x = 0; x < boardWidth; x++) {
+            board[y][x] = board[y - 1][x];
+        }
+    }
+}
+
+function checkLines() {
+    for (let y = 0; y < boardHeight; y++) {
+        let pieces = 0;
+        for (let x = 0; x < boardWidth; x++) {
+            if (board[y][x] != 0) {
+                pieces++;
+            }
+        }
+        if (pieces === boardWidth) {
+            moveBoardDown(y);
+        }
+    }
+}
+
 function addTetrominoToBoard() {
     for (let y = 0; y < 4; y++) {
         for (let x = 0; x < 4; x++) {
@@ -74,6 +96,7 @@ function addTetrominoToBoard() {
             }
         }
     }
+    checkLines();
     this.tetromino.reset();
     if (debug) {
         debugBoard();
@@ -87,12 +110,14 @@ function update() {
 function draw() {
     background(0);
 
+    update();
+
     // Draws Board's outline.
     stroke(255);
-    fill(0);
+    noFill();
     rect(0, 0, width - 1, height - 1);
 
-    update();
+    
 
     // Draws Board.
     noStroke();
