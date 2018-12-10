@@ -135,6 +135,7 @@ function draw() {
     update();
 
     // Draws Board's outline.
+    strokeWeight(5);
     stroke(255);
     noFill();
     rect(0, 0, width - 1, height - 1);
@@ -152,25 +153,25 @@ function draw() {
                     fill(41, 173, 255);
                     break;
                 case 2:
-                    fill(16, 78, 159);
+                    fill(1, 89, 187);
                     break;
                 case 3:
-                    fill(255, 163, 0);
+                    fill(247, 113, 12);
                     break;
                 case 4:
-                    fill(255, 255, 39);
+                    fill(250, 202, 0);
                     break;
                 case 5:
-                    fill(0, 231, 86);
+                    fill(0, 229, 57);
                     break;
                 case 6:
-                    fill(131, 118, 156);
+                    fill(124, 38, 106);
                     break;
                 case 7:
-                    fill(255, 119, 168);
+                    fill(255, 0, 77);
                     break;
             }
-            rect(padding + x * size, padding + y * size, size - 2, size - 2);
+            rect(padding + x * size, padding + y * size, size - 3, size - 3);
         }
     }
 }

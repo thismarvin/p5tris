@@ -277,7 +277,7 @@ class Tetromino {
     }
 
     collidesWithBoard() {
-        if (this.y < 0){
+        if (this.y < 0) {
             return false;
         }
         for (let y = 0; y < 4; y++) {
@@ -340,32 +340,32 @@ class Tetromino {
         noStroke();
         switch (this.type) {
             case 1:
-                fill(41, 173, 255);
-                break;
-            case 2:
-                fill(16, 78, 159);
-                break;
-            case 3:
-                fill(255, 163, 0);
-                break;
-            case 4:
-                fill(255, 255, 39);
-                break;
-            case 5:
-                fill(0, 231, 86);
-                break;
-            case 6:
-                fill(131, 118, 156);
-                break;
-            case 7:
-                fill(255, 119, 168);
+                    fill(41, 173, 255);
+                    break;
+                case 2:
+                    fill(1, 89, 187);
+                    break;
+                case 3:
+                    fill(247, 113, 12);
+                    break;
+                case 4:
+                    fill(250, 202, 0);
+                    break;
+                case 5:
+                    fill(0, 229, 57);
+                    break;
+                case 6:
+                    fill(124, 38, 106);
+                    break;
+                case 7:
+                    fill(255, 0, 77);
                 break;
         }
 
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (this.pieces[this.rotationIndex][y][x] != 0) {
-                    rect(padding + this.x * size + x * size, padding + this.y * size + y * size, size - 2, size - 2);
+                    rect(padding + this.x * size + x * size, padding + this.y * size + y * size, size - 3, size - 3);
                 }
             }
         }
