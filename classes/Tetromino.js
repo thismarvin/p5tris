@@ -210,8 +210,8 @@ class Tetromino {
     }
 
     reset() {
-        this.x = 0;
-        this.y = 0;
+        this.x = 3;
+        this.y = -4;
         this.type = 1 + floor(Math.random() * 7);
         this.rotationIndex = 0;
         this.falling = true;
@@ -277,6 +277,9 @@ class Tetromino {
     }
 
     collidesWithBoard() {
+        if (this.y < 0){
+            return false;
+        }
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (this.pieces[this.rotationIndex][y][x] != 0 &&
