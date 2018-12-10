@@ -10,7 +10,7 @@ let gameOver;
 
 function setup() {
     debug = false;
-    size = 25;
+    size = floor(displayWidth / 48);
     padding = floor(size / 5);
     boardWidth = 10;
     boardHeight = 20;
