@@ -1,4 +1,3 @@
-
 let debug;
 let size;
 let padding;
@@ -10,7 +9,13 @@ let gameOver;
 
 function setup() {
     debug = false;
-    size = floor(displayWidth / 48);
+
+    if (windowWidth >= windowHeight) {
+        size = floor(windowHeight / 24);
+    } else {
+        size = floor(windowWidth / 24);
+    }
+    
     padding = floor(size / 5);
     boardWidth = 10;
     boardHeight = 20;
@@ -55,17 +60,13 @@ function keyPressed() {
         this.tetromino.move(1);
     }
 
-    if (keyCode === DOWN_ARROW || keyCode === 83) {
-        frameRate(20);
-    }
-    else {
-        frameRate(5);
-    }
-
-    // Space
-    if (keyCode === 32) {
+    if (keyCode === UP_ARROW || keyCode === 87) {
         this.tetromino.rotate(1);
     }
+
+    if (keyCode === DOWN_ARROW || keyCode === 83) {
+        frameRate(20);
+    }    
 
     // R
     if (keyCode === 82) {
@@ -76,7 +77,7 @@ function keyPressed() {
 function keyReleased() {
     if (keyCode === DOWN_ARROW || keyCode === 83) {
         frameRate(5);
-    }
+    }   
 }
 
 function moveBoardDown(row) {
